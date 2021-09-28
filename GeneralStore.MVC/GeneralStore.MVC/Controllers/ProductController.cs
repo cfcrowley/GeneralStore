@@ -88,6 +88,8 @@ namespace GeneralStore.MVC.Controllers
 
         //Post : Edit
         //Product/Edit/{id}
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Product product)
         {
             if (ModelState.IsValid)
