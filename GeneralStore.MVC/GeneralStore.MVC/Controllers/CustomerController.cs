@@ -16,6 +16,8 @@ namespace GeneralStore.MVC.Controllers
         // GET: Customer
         public ActionResult Index()
         {
+            List<Customer> customerList = _db.Customers.ToList();
+            List<Customer> orderedList = customerList.OrderBy(cust => cust.FullName).ToList();
             return View(_db.Products.ToList());
         }
 
@@ -93,6 +95,22 @@ namespace GeneralStore.MVC.Controllers
                 _db.Entry(customer).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+
+            return View(customer);
+        }
+
+        //Get : Details Customer/Details/{id}
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = _db.Customers.Find(id);
+            if(customer == null)
+            {
+                return HttpNotFound();
             }
 
             return View(customer);
